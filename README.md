@@ -12,7 +12,7 @@ echo $KUBECONFIG
 
 dziala tylko w jednym panelu tilix
 
-kubectl get node
+#kubectl get node
 
 #https://helm.sh/docs/intro/install/
 
@@ -20,9 +20,9 @@ chmod 620 test-kubeconfig.yaml
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 
-helm search repo bitnami
+#helm search repo bitnami
 
-cd sekret
+cd secret
 
 #helm install mongodb --values ../test-mongodb.yaml bitnami/mongodb
 
@@ -36,59 +36,56 @@ kubectl get secret
 
 #kubectl apply -f ../test-mongo-express.yaml
 
-#<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>
+#
 
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/ #nie
+#helm repo add stable https://kubernetes-charts.storage.googleapis.com/ #nie
 
-helm repo add stable https://charts.helm.sh/stable/
+#helm repo add stable https://charts.helm.sh/stable/
 
-helm install nginx-ingress stable/nginx-ingress --set controller.publishService.enabled=true #nie
+#helm install nginx-ingress stable/nginx-ingress --set controller.publishService.enabled=true #nie
 
-helm uninstall nginx-ingress
+#helm uninstall nginx-ingress
 
-helm repo remove stable
+#helm repo remove stable
 
-helm repo add nginx-stable https://helm.nginx.com/stable
+#helm repo add nginx-stable https://helm.nginx.com/stable
 
-helm repo update
+#helm repo update
 
-helm install nginx-ingress nginx-stable/nginx-ingress --set controller.publishService.enabled=true #nie ma poda backend
+#helm install nginx-ingress nginx-stable/nginx-ingress --set controller.publishService.enabled=true #nie ma poda backend
 
-helm uninstall nginx-ingress
+#helm uninstall nginx-ingress
 
-helm repo remove nginx-stable
-#<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>
+#helm repo remove nginx-stable
+#
 
 #helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
 #helm repo update
 
-helm install wpk8s bitnami/wordpress --set allowOverrideNone=true
+#helm install wpk8s bitnami/wordpress --set allowOverrideNone=true
 
-albo
-
-helm install my-release \
-  --set wordpressUsername=admin \
-  --set wordpressPassword=password \
-  --set mariadb.auth.rootPassword=secretpassword \
-    bitnami/wordpress
-
-albo 
-
-helm install wpk8s \
-  --set wordpressUsername=admin \
-  --set wordpressPassword= \
-    bitnami/wordpress
-
-
-
-kubectl get svc --namespace default -w wpk8s
-
-echo Username: user
-
-echo Password: $(kubectl get secret --namespace default mollified-lynx-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
+#albo
+#
+#helm install my-release \
+#  --set wordpressUsername=admin \
+#  --set wordpressPassword=password \
+#  --set mariadb.auth.rootPassword=secretpassword \
+#    bitnami/wordpress
+#
+#albo 
+#
+#helm install wpk8s \
+#  --set wordpressUsername=admin \
+#  --set wordpressPassword= \
+#    bitnami/wordpress
 
 
+#kubectl get svc --namespace default -w wpk8s
+
+#echo Username: user
+
+#echo Password: $(kubectl get secret --namespace default mollified-lynx-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
 
 #kubectl apply -f ../test-ingress.yaml
 
@@ -97,11 +94,11 @@ echo Password: $(kubectl get secret --namespace default mollified-lynx-wordpress
 #kubectl scale --replicas=0 statefulset/mongodb
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-need to delete cluster, nodebalancer, vms, volumes in linode dashboard
 
-pulumi zamiast wczesniejszych
+po testowaniu trzeba usunąc cluster, nodebalancer, vm, volumes na linode dashboard
 
-skopiowac dane api z panelu linode do ~/.kube/config
+
+skopiowac dane klastra z panelu linode do ~/.kube/config
 
 https://www.pulumi.com/docs/tutorials/kubernetes/wordpress-chart/
 
@@ -110,7 +107,6 @@ https://github.com/pulumi/examples/tree/master/kubernetes-ts-helm-wordpress
 trzeba skopiowac na piechote pliki z githuba
 
 wget -O package.json https://raw.githubusercontent.com/pulumi/examples/master/kubernetes-ts-helm-wordpress/package.json
-itd
 
 pulumi stack init 
 
@@ -118,6 +114,15 @@ pulumi up
 
 curl -sL $(pulumi stack output frontendIp):80 | grep "<title>"
 
-usuwanie: 
+kubectl get secrets
+
+login: user
+
+kubectl get secrets/wpdev-wordpress -o json | jq '.data | map_values(@base64d)'
+
+
+sprawdzic instalacje motywow i wtyczek i zapisywanie zdjec
+
+usuwanie wp a potem trzeba recznie w panelu linode: 
 
 pulumi destroy
