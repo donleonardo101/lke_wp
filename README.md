@@ -5,6 +5,7 @@ https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 https://www.youtube.com/watch?v=JGtJj_nAA2s
 
 cd ./secret
+
 export KUBECONFIG=wplke-kubeconfig.yaml
 
 echo $KUBECONFIG
@@ -36,6 +37,7 @@ kubectl get secret
 #kubectl apply -f ../test-mongo-express.yaml
 
 #<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>
+
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/ #nie
 
 helm repo add stable https://charts.helm.sh/stable/
@@ -56,13 +58,37 @@ helm uninstall nginx-ingress
 
 helm repo remove nginx-stable
 #<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 #helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
-helm repo update
+#helm repo update
 
-helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
+helm install wpk8s bitnami/wordpress --set allowOverrideNone=true
 
-kubectl get svc
+albo
+
+helm install my-release \
+  --set wordpressUsername=admin \
+  --set wordpressPassword=password \
+  --set mariadb.auth.rootPassword=secretpassword \
+    bitnami/wordpress
+
+albo 
+
+helm install wpk8s \
+  --set wordpressUsername=admin \
+  --set wordpressPassword= \
+    bitnami/wordpress
+
+
+
+kubectl get svc --namespace default -w wpk8s
+
+echo Username: user
+
+echo Password: $(kubectl get secret --namespace default mollified-lynx-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
+
+
 
 #kubectl apply -f ../test-ingress.yaml
 
@@ -70,4 +96,28 @@ kubectl get svc
 
 #kubectl scale --replicas=0 statefulset/mongodb
 
-delete cluster, nodebalancer, vms, volumes in linode dashboard
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+need to delete cluster, nodebalancer, vms, volumes in linode dashboard
+
+pulumi zamiast wczesniejszych
+
+skopiowac dane api z panelu linode do ~/.kube/config
+
+https://www.pulumi.com/docs/tutorials/kubernetes/wordpress-chart/
+
+https://github.com/pulumi/examples/tree/master/kubernetes-ts-helm-wordpress
+
+trzeba skopiowac na piechote pliki z githuba
+
+wget -O package.json https://raw.githubusercontent.com/pulumi/examples/master/kubernetes-ts-helm-wordpress/package.json
+itd
+
+pulumi stack init 
+
+pulumi up
+
+curl -sL $(pulumi stack output frontendIp):80 | grep "<title>"
+
+usuwanie: 
+
+pulumi destroy
