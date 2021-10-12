@@ -65,21 +65,13 @@ kubectl get secret
 
 #helm install wpk8s bitnami/wordpress --set allowOverrideNone=true
 
-#albo
-#
-#helm install my-release \
-#  --set wordpressUsername=admin \
-#  --set wordpressPassword=password \
-#  --set mariadb.auth.rootPassword=secretpassword \
-#    bitnami/wordpress
-#
-#albo 
-#
-#helm install wpk8s \
-#  --set wordpressUsername=admin \
-#  --set wordpressPassword= \
-#    bitnami/wordpress
+albo
 
+helm install my-release \
+  --set wordpressUsername=admin \
+  --set wordpressPassword=password \
+  --set mariadb.auth.rootPassword=secretpassword \
+    bitnami/wordpress
 
 #kubectl get svc --namespace default -w wpk8s
 
@@ -126,3 +118,5 @@ sprawdzic instalacje motywow i wtyczek i zapisywanie zdjec
 usuwanie wp a potem trzeba recznie w panelu linode: 
 
 pulumi destroy
+
+0.19$ na poczatku
