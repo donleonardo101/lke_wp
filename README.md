@@ -119,4 +119,8 @@ usuwanie wp a potem trzeba recznie w panelu linode:
 
 pulumi destroy
 
-0.19$ na poczatku
+koszt 0.21$ na poczatku
+
+0.02 na godzine
+
+730 godzin w miesiacu = 14.6$/miesiac = 57,67zł*12=692,04zł rocznie
